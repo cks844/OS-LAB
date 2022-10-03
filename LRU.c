@@ -1,64 +1,74 @@
 #include<stdio.h>
-main()
-{
-int q[20],p[50],c=0,c1,d,f,i,j,k=0,n,r,t,b[20],c2[20];
-printf("Enter no of pages:");
-scanf("%d",&n);
-printf("Enter the reference string:");
-for(i=0;i<n;i++)
-scanf("%d",&p[i]);
-printf("Enter no of frames:");
-scanf("%d",&f);
-q[k]=p[k];
-printf("\n\t%d\n",q[k]);
-c++;
-k++;
-for(i=1;i<n;i++)
-{
-c1=0;
-for(j=0;j<f;j++)
-{
-if(p[i]!=q[j])
-c1++;
-}
-if(c1==f)
-{c++;
-if(k<f)
-{q[k]=p[i];
-k++;
-for(j=0;j<k;j++)
-printf("
-\t%d",q[j]);
-printf("
-\n");
-}
-else
-{for(r=0;r<f;r++)
-{c2[r]=0;
-for(j=i
--1;j<n;j--
-)
-{if(q[r]!=p[j])
-c2[r]++;
-else
-break; }}
-for(r=0;r<f;r++)
-b[r]=c2[r];
-for(r=0;r<f;r++) {
-for(j=r;j<f;j++) {
-if(b[r]<b[j]) {
-t=b[r];
-b[r]=b[j];
-b[j]=t; }}}
-for(r=0;r<f;r++) {
-if(c2[r]==b[0])
-q[r]=p[i];
-printf("
-\t%d",q[r]);
-}
-printf("
-\n");
-}}}
-printf("
-\nThe no of page faults is %d",c);
+int main()
+	{
+	int m,i,n, position, k, l,total_frames,total_pages,pages[30],temp[30];
+	int frames[10];
+	int a = 0, b = 0, page_fault = 0;
+	printf("\nEnter the number of pages : ");
+	scanf("%d",&total_pages);
+	printf("\nEnter the page number : ");
+	for(i=0;i<=total_pages-1;i++)
+		scanf("%d",&pages[i]);
+	printf("\nEnter the number of frames : ");
+	scanf("%d",&total_frames);
+	printf("\nReference String\t");
+	for(m = 0; m < total_frames; m++){
+		frames[m] = -1;
+		printf("f%d\t",m+1);
+	}
+	printf("\n");
+	for(n = 0; n < total_pages; n++)
+	{
+		printf("%d\t\t\t", pages[n]);
+		a = 0, b = 0;
+		for(m = 0; m < total_frames; m++)
+		{
+			if(frames[m] == pages[n])
+			{
+			a = 1;
+			b = 1;
+			break;
+			}
+		}
+		if(a == 0)
+		{
+			for(m = 0; m < total_frames; m++)
+			{
+				if(frames[m] == -1)
+				{
+					frames[m] = pages[n];
+					b = 1;
+					page_fault++;
+					break;
+				}
+			}
+		}
+		if(b == 0)
+		{
+			for(m = 0; m < total_frames; m++)
+				temp[m] = 0;
+			for(k = n - 1, l = 1; l <= total_frames - 1; l++, k--)
+			{
+				for(m = 0; m < total_frames; m++)
+				{
+					if(frames[m] == pages[k])
+						temp[m] = 1;
+				}
+			}
+			for(m = 0; m < total_frames; m++)
+			{
+				if(temp[m] == 0)
+				position = m;
+			}
+			frames[position] = pages[n];
+			page_fault++;
+		}
+		for(m = 0; m < total_frames; m++)
+		{
+		printf("%d\t", frames[m]);
+		}
+		printf("\n");
+	}
+	printf("\nTotal Number of Page Faults:\t%d\n", page_fault);
+	return 0;
 }
